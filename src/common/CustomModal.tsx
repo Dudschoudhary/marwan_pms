@@ -1,15 +1,21 @@
 import { Modal } from "antd";
-import CustomForm, { TProps } from "./CustomForm";
+// import { TProps } from "./CustomForm";
+
+
+interface TProps {
+  open:boolean,
+  title: string,
+  onClose:any,
+  children:any
+}
+
 
 const CustomModal = ({
   open,
   title,
   onClose,
-  initialValues,
-  validationSchema,
-  onSubmit,
-  fields,
-}:TProps) => {
+  children,
+}: TProps) => {
   return (
     <Modal
       open={open}
@@ -21,21 +27,7 @@ const CustomModal = ({
       className="rounded-lg shadow-lg"
     >
       <div className="space-y-4">
-        <CustomForm
-          initialValues={initialValues}
-          validationSchema={validationSchema}
-          onSubmit={onSubmit}
-          fields={fields}
-          open={true}
-          title=""
-          onClose={onClose}               
-        />
-        {/* <button
-          className="w-full bg-red-500 text-white py-2 px-4 rounded-md hover:bg-red-600 transition-colors"
-          onClick={onClose}
-        >
-          Cancel
-        </button> */}
+        {children}
       </div>
     </Modal>
   );

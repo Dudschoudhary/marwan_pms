@@ -1,21 +1,18 @@
 import { ErrorMessage, Field, Form, Formik } from "formik";
 
 
-export type TvalidationSchema = {
+export type validationSchema = {
   name: string,
   coname: string,
-  contact: string,
+  contact: number,
   description: string
 }
 
 export type TProps = {
-  open: boolean,
-  title: string,
-  initialValues: any,
-  fields: { name: string, label: string, placeholder: string, type: string | number },
-  validationSchema: TvalidationSchema,
   onSubmit: any
-  onClose: any
+  initialValues:any
+  validationSchema:any
+  fields:any
 }
 
 
@@ -38,7 +35,7 @@ const CustomForm = ({
           >
             {({ isSubmitting, errors, touched }) => (
               <Form>
-                {fields.map((field: { name: string, label: string, placeholder: string, type: string, required: string }) => (
+                {fields.map((field:any) => (
                   <div key={field.name} className="mb-4">
                     <div className="flex">
                       <label
@@ -61,7 +58,7 @@ const CustomForm = ({
                         id={field.name}
                         name={field.name}
                         placeholder={field.placeholder}
-                        rows={10}
+                        rows={5}
                         className={`mt-1 block w-full px-3 py-2 rounded-md min-h-[150px] max-h-[150px] shadow-sm focus:outline-none focus:ring-blue-500  sm:text-sm  ${errors[field.name] && touched[field.name] ? "border border-red-400 focus:border-red-400" : "border border-gray-300 focus:border-gray-400 "}`}
                       />
                     ) : (

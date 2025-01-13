@@ -9,6 +9,8 @@ import CustomTable from '../common/CustomTable';
 import CustomModal from '../common/CustomModal';
 import { AppDispatch } from '../store/store';
 import SearchBox from '../common/SearchBox';
+import CustomForm from '../common/CustomForm';
+import Demo from './Demo';
 
 
 
@@ -17,15 +19,12 @@ const Client = () => {
     const dispatch: AppDispatch = useDispatch();
     const [editingUser, setEditingUser] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
-   
-    console.log("editingUser",editingUser)
+
     const [modalTitle, setModalTitle] = useState('');
     const [searchQuery, setSearchQuery] = useState('');
-
-
     const { users, loading, error } = useSelector((state: RootState) => state.user);
 
-    const validationSchema:any = yup.object({
+    const validationSchema: any = yup.object({
         name: yup.string().required('Client Name is required'),
         coName: yup.string().required('Contact Person is required'),
         contact: yup
@@ -41,17 +40,17 @@ const Client = () => {
         contact: '',
         description: '',
     };
-    
+
 
     const handleSearchChange = (event: any) => {
         setSearchQuery(event.target.value);
     };
-   
+
     const handleFormSubmit = (values: any, { resetForm }: { resetForm: any }) => {
         if (editingUser) {
             dispatch(editUserAsync({ ...editingUser as any, ...values }));
         } else {
-            const userWithId:any = { ...values, id: uuidv4()  };
+            const userWithId: any = { ...values, id: uuidv4() };
             dispatch(addUserAsync(userWithId));
         }
         setIsModalOpen(false);
@@ -59,8 +58,14 @@ const Client = () => {
         resetForm();
     };
 
-    const fields:any = [
-        { name: 'name', label: 'Client Name', placeholder: 'Enter Client Name', required: '*' },
+    const fields: any = [
+        {
+            name: 'name',
+            label: 'Client Name',
+            placeholder: 'Enter Client Name',
+            required: '*',
+            type: 'text',
+        },
         {
             name: 'coName',
             label: 'Contact Person',
@@ -119,7 +124,7 @@ const Client = () => {
                 />
             ),
         },
-        
+
     ];
 
     useEffect(() => {
@@ -163,7 +168,7 @@ const Client = () => {
                         </div>
                     )}
                 </div>
-
+                <Demo />
                 <CustomModal
                     open={isModalOpen}
                     title={modalTitle}
@@ -171,12 +176,12 @@ const Client = () => {
                         setEditingUser(null);
                         setIsModalOpen(false);
                     }}
-                    initialValues={editingUser || initialValues}
-                    validationSchema={validationSchema}
-                    onSubmit={handleFormSubmit}
-                    fields={fields}
-                    // className="max-w-lg mx-auto bg-white shadow-lg rounded-lg p-6"
-                />
+
+                // className="max-w-lg mx-auto bg-white shadow-lg rounded-lg p-6"
+                >
+                    <CustomForm initialValues={editingUser || initialValues} validationSchema={validationSchema} onSubmit={handleFormSubmit} fields={fields} />
+                </CustomModal>
+
             </div>
         </>
     );
